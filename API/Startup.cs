@@ -1,3 +1,5 @@
+using Application;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,8 @@ namespace API
             services.AddHealthChecks();
             
             services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            services.AddAutoMapper(typeof(LogProfile));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
