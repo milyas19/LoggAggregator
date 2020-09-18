@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Data
 {
-    internal class LoggAggregatorConfig : IEntityTypeConfiguration<LoggAggregatorContext>
+    public class LoggAggregatorConfig : IEntityTypeConfiguration<LoggAggregator>
     {
-        public void Configure(EntityTypeBuilder<LoggAggregatorContext> builder)
+        public void Configure(EntityTypeBuilder<LoggAggregator> builder)
         {
             builder.ToTable("LoggAggregator");
         }
