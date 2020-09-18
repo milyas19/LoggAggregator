@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Create;
+using Application.GetList;
+using Application.GetSingleLog;
 using Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Data;
 
@@ -12,31 +16,45 @@ namespace API.Controllers
     [ApiController]
     public class LoggAggregatorController : ControllerBase
     {
-        private readonly LoggAggregatorContext _loggAggregatorContext;
-        public LoggAggregatorController(LoggAggregatorContext loggAggregatorContext)
+        private readonly IMediator _mediator;
+        public LoggAggregatorController(IMediator mediator)
         {
-            _loggAggregatorContext = loggAggregatorContext;
+            _mediator = mediator;
         }
-
-        // GET: api/<LoggAggregatorController>
+        
+        /// <summary>
+        /// Return a list of logs
+        /// </summary>
+        /// <param name="severity"></param>
+        /// <returns>List of Logs</returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<List<LogDto>> Get([FromQuery(Name ="severity")] string severity)
         {
-            return new string[] { "value1", "value2" };
+            return await _mediator.Send(new GetListQuery(severity));
         }
 
-        // GET api/<LoggAggregatorController>/5
+        /// <summary>
+        /// Return a log object
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Log</returns>
         [HttpGet("{id}")]
-        public ActionResult<LoggAggregator> Get(int id)
+        public async Task<ActionResult<SingleLogDto>> Get(int id)
         {
-            var log = _loggAggregatorContext.LoggAggregators.Where(x => x.Id == id);
+            var log = await _mediator.Send(new GetLogQuery(id)); 
             return Ok(log);
         }
 
-        // POST api/<LoggAggregatorController>
+        /// <summary>
+        /// Create a log in database
+        /// </summary>
+        /// <param name="createLogDto"></param>
+        /// <returns></returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<CreatedLogDto>> CreateLog([FromBody] CreateLogDto createLogDto)
         {
+            var result = await _mediator.Send(new CreateLogCommand(createLogDto));
+            return Ok(result);
         }
     }
 }
