@@ -1,5 +1,7 @@
 using Application;
+using Application.Create;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Persistence.Data;
+using System.Reflection;
 
 namespace API
 {
@@ -24,6 +27,8 @@ namespace API
         {
             services.AddDbContext<LoggAggregatorContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddMediatR(typeof(CreateLogCommandHandler).GetTypeInfo().Assembly);
 
             services.AddHealthChecks();
 

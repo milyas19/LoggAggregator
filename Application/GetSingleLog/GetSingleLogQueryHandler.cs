@@ -14,18 +14,26 @@ namespace Application.GetSingleLog
     public class GetSingleLogQueryHandler : IRequestHandler<GetLogQuery, SingleLogDto>
     {
         private readonly LoggAggregatorContext _loggContext;
-        private readonly IMapper _mapper;
 
-        public GetSingleLogQueryHandler(LoggAggregatorContext loggContext, IMapper mapper)
+        public GetSingleLogQueryHandler(LoggAggregatorContext loggContext)
         {
             _loggContext = loggContext;
-            _mapper = mapper;
         }
 
         public async Task<SingleLogDto> Handle(GetLogQuery request, CancellationToken cancellationToken)
         {
             var log = await _loggContext.LoggAggregators.FirstOrDefaultAsync(l => l.Id == request.Id);
-            return _mapper.Map<SingleLogDto>(log);
+
+            var logDto = new SingleLogDto
+            {
+                Id = log.Id,
+                CreatedDate = log.CreatedDate,
+                HostName = log.HostName,
+                Severity = log.Severity,
+                Message = log.Message
+            };
+            
+            return logDto;
         }
     }
 
