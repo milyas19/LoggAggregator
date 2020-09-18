@@ -30,6 +30,8 @@ namespace API
 
             services.AddMediatR(typeof(CreateLogCommandHandler).GetTypeInfo().Assembly);
 
+            services.AddCors();
+
             services.AddHealthChecks();
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
@@ -64,6 +66,10 @@ namespace API
                 s.SwaggerEndpoint("/Swagger/v1/swagger.json", "Log Aggregator API");
                 s.RoutePrefix = "swagger/ui";
             });
+
+            app.UseCors(
+                 options => options.WithOrigins("http://localhost:3000").AllowAnyMethod()
+            );
 
             app.UseHttpsRedirection();
             app.UseRouting();
