@@ -1,0 +1,30 @@
+.LogBody {
+  margin-left: 25%;
+}
+
+.title {
+  font-size: 18pt;
+  color: blueviolet;
+}
+
+.item {
+  margin: 10px;
+  font-size: 10pt;
+  color: black;
+}
+
+.body {
+  font-size: 16pt;
+  color: black;
+}
+
+.tableHeader {
+  background-color: lightblue;
+}
+
+.renderElement > tr > td {
+  color: black;
+  border-style: solid;
+  border-color: lightgray;
+  border-width: 2px;
+}

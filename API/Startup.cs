@@ -1,6 +1,7 @@
 using Application;
 using Application.Create;
 using AutoMapper;
+using Entities;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Persistence.Data;
+using Persistence.Data.DBWrapper;
 using System.Reflection;
 
 namespace API
@@ -25,6 +27,8 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IDBWrapper<LoggAggregator>, LoggAggregatorDBWrapper>();
+
             services.AddDbContext<LoggAggregatorContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 

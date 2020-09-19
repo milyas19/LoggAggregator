@@ -46,6 +46,17 @@ namespace API.Controllers
         }
 
         /// <summary>
+        /// Return a list of severity options
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("severity")]
+        public async Task<ActionResult<List<string>>> GetSeverityTypes()
+        {
+            var severityList = await _mediator.Send(new GetSeverityOptionsQuery());
+            return Ok(severityList);
+        }
+
+        /// <summary>
         /// Create a log in database
         /// </summary>
         /// <param name="createLogDto"></param>
