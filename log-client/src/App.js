@@ -8,9 +8,7 @@ function App() {
   const [dropdownOptions, setDropdownOptions] = useState([]);
 
   const handleSelect = (event) => {
-    // debugger;
     setSeverityDropDown(event);
-    // getLogs();
   };
 
   useEffect(() => {
@@ -35,7 +33,6 @@ function App() {
   }, [severityDropDown]);
 
   useEffect(() => {
-    // debugger;
     getLogs();
     // eslint-disable-next-line no-use-before-define
   }, [getLogs]);
