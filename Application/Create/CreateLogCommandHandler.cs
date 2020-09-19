@@ -1,6 +1,7 @@
 ﻿using Entities;
 using MediatR;
 using Persistence.Data;
+using Persistence.Data.DBWrapper;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,11 +10,11 @@ namespace Application.Create
 {
     public class CreateLogCommandHandler : IRequestHandler<CreateLogCommand, CreatedLogDto>
     {
-        private readonly LoggAggregatorContext _loggContext;
+        private readonly IDBWrapper<LoggAggregator> _dbWrapper;
 
-        public CreateLogCommandHandler(LoggAggregatorContext loggContext)
+        public CreateLogCommandHandler(IDBWrapper<LoggAggregator> dbWrapper)
         {
-            _loggContext = loggContext;
+            _dbWrapper = dbWrapper;
         }
 
         public async Task<CreatedLogDto> Handle(CreateLogCommand request, CancellationToken cancellationToken)
@@ -25,8 +26,7 @@ namespace Application.Create
                 Severity = request.Dto.Severity,
                 Message = request.Dto.Message
             };
-            _loggContext.LoggAggregators.Add(log);
-            await _loggContext.SaveChangesAsync();
+            await _dbWrapper.Add(log);
 
             var createdLogDto = new CreatedLogDto
             {
