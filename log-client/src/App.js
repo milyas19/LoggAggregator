@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import moment from "moment";
 import "./style.css";
+import Header from "./LogComponents/Header";
+import DropDown from "./LogComponents/DropDown";
+import LogTable from "./LogComponents/LogTable";
+
+const BaseApiUrl = process.env.REACT_APP_API_URL;
+const SeverityOption = process.env.REACT_APP_API_URL_SEVERITY_OPTION;
 
 function App() {
   const [viewLog, setViewLog] = useState([]);
@@ -14,9 +19,7 @@ function App() {
   useEffect(() => {
     // Fetch dropdown options
     async function fetchingSeverityOptions() {
-      const dropdownResp = await fetch(
-        "http://localhost:55539/api/loggaggregator/severity"
-      );
+      const dropdownResp = await fetch(SeverityOption);
       const severityData = await dropdownResp.json();
       setDropdownOptions(severityData);
     }
@@ -24,10 +27,7 @@ function App() {
   }, []);
 
   const getLogs = useCallback(async () => {
-    const response = await fetch(
-      "http://localhost:55539/api/loggaggregator?severity=" +
-        severityDropDown.toLowerCase()
-    );
+    const response = await fetch(BaseApiUrl + severityDropDown.toLowerCase());
     const data = await response.json();
     setViewLog(data);
   }, [severityDropDown]);
@@ -39,45 +39,9 @@ function App() {
 
   return (
     <>
-      <label>
-        Log Severity
-        <select
-          id="first"
-          value={severityDropDown}
-          onChange={(e) => handleSelect(e.target.value)}
-        >
-          <option value="">All</option>
-
-          {dropdownOptions.map((severityData, i) => (
-            <option value={severityData}> {severityData} </option>
-          ))}
-        </select>
-      </label>
-
-      <div class="LogBody">
-        <h1>Log Aggregator</h1>
-        <table>
-          <tr class="tableHeader">
-            <th>Id</th>
-            <th>Date</th>
-            <th>Host Name</th>
-            <th>Severity</th>
-            <th>Message</th>
-          </tr>
-          <tbody class="renderElement">
-            {viewLog?.length &&
-              viewLog.map((data, i) => (
-                <tr key={i}>
-                  <td> {data.id}</td>
-                  <td> {moment(data.createdDate).format("LLL")}</td>
-                  <td> {data.hostName}</td>
-                  <td> {data.severity}</td>
-                  <td> {data.message}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+      <Header />
+      <DropDown dropdownOptions={dropdownOptions} handleSelect={handleSelect} />
+      <LogTable viewLog={viewLog} />
     </>
   );
 }
