@@ -1,0 +1,47 @@
+.LogBody {
+  margin-left: 25%;
+  margin-top: 2em;
+}
+
+.title {
+  font-size: 18pt;
+  color: blueviolet;
+}
+
+.item {
+  margin: 10px;
+  font-size: 10pt;
+  color: black;
+}
+
+.body {
+  font-size: 16pt;
+  color: black;
+}
+
+.tableHeader {
+  background-color: lightblue;
+}
+
+tbody > tr > td {
+  color: black;
+  border-style: solid;
+  border-color: lightgray;
+  border-width: 2px;
+}
+.banner {
+  background-color: black;
+  width: 100%;
+  height: 2em;
+  color: bisque;
+}
+.Heading {
+  text-align: center;
+  padding-top: 7px;
+}
+.dropDownSeverity {
+  color: bisque;
+  float: right;
+  margin-top: -25px;
+  margin-right: 2em;
+}
