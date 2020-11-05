@@ -31,9 +31,3 @@ In order to test API, Please Run the project and it will open swagger as it is s
 - Can filter logs by date/ month
 - Can write unit-tests more and better
 - Can store data not only in SQL but json, Azure blob can be used.
-
-# Hurdles
-- Scope of project
-- I planned to work during this weekend. However, on Friday my project manager gave me surprise by ordering (not asking) me to work during the weekend in order to meet the deadline.
-- Kids (that's why I worked mostly late nights)
-- I started the second task but I wont meet the deadline so I providing the one which is completed (I think!).
